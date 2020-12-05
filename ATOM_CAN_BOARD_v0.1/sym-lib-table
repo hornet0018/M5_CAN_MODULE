@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name M5Atom_CAN-rescue)(type Legacy)(uri ${KIPRJMOD}/M5Atom_CAN-rescue.lib)(options "")(descr ""))
+)

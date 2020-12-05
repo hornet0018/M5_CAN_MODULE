@@ -2,7 +2,7 @@
 
 void setup() {
   Serial.begin(115200);
-  CAN.setPins(32, 26);
+  CAN.setPins(21, 25);
   while (!Serial);
 
   Serial.println("CAN Receiver");
