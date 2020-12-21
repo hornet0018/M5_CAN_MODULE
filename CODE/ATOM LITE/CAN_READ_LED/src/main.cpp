@@ -10,47 +10,55 @@ uint8_t G = 0;
 uint8_t B = 0;
 void LED();
 
-void setup() {
+void setup()
+{
   Serial.begin(115200);
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   FastLED.setBrightness(20);
 
-  CAN.setPins(21, 25);
-  while (!Serial);
+  CAN.setPins(25, 21);
+  while (!Serial)
+    ;
 
   Serial.println("CAN Receiver");
 
   // start the CAN bus at 500 kbps
- if (!CAN.begin(500E3)) {
+  if (!CAN.begin(1000E3))
+  {
     Serial.println("Starting CAN failed!");
-    while (1);
+    while (1)
+      ;
   }
 }
 
 void LED()
 {
-   for (int k = 0; k < NUM_LEDS; k++)
+  for (int k = 0; k < NUM_LEDS; k++)
   {
-    leds[k].setRGB(R,G,B);
+    leds[k].setRGB(R, G, B);
   }
   FastLED.show();
   delay(50);
 }
 
-void loop() {
+void loop()
+{
   // try to parse packet
   int packetSize = CAN.parsePacket();
 
-  if (packetSize) {
+  if (packetSize)
+  {
     // received a packet
     Serial.print("Received ");
 
-    if (CAN.packetExtended()) {
+    if (CAN.packetExtended())
+    {
       Serial.print("extended ");
     }
 
-    if (CAN.packetRtr()) {
+    if (CAN.packetRtr())
+    {
       // Remote transmission request, packet contains no data
       Serial.print("RTR ");
     }
@@ -58,16 +66,19 @@ void loop() {
     Serial.print("packet with id 0x");
     Serial.print(CAN.packetId(), HEX);
 
-    if (CAN.packetRtr()) {
+    if (CAN.packetRtr())
+    {
       Serial.print(" and requested length ");
       Serial.println(CAN.packetDlc());
-    } else {
+    }
+    else
+    {
       Serial.print(" and length ");
       Serial.println(packetSize);
 
       // only print packet data for non-RTR packets
-      while (CAN.available()) {
-
+      while (CAN.available())
+      {
         R = (uint8_t)CAN.read();
         G = (uint8_t)CAN.read();
         B = (uint8_t)CAN.read();
@@ -81,5 +92,4 @@ void loop() {
     }
     Serial.println();
   }
- LED();
 }
