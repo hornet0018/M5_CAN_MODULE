@@ -20,8 +20,6 @@ CRGB leds[NUM_LEDS];
 
 #define MAX_SPEED 255
 
-int motorLeft = 0;
-int motorRight = 0;
 int16_t speedR_data = 0;
 int16_t speedL_data = 0;
 
@@ -30,27 +28,28 @@ void robotMove(int speedLeft, int speedRight)
   if (speedLeft > 0)
   {
     int speedL = map(speedLeft, 0, 255, 255, 0);
-    ledcWrite(M1A_PWM_CHANNEL, speedL);
-    ledcWrite(M1B_PWM_CHANNEL, 255);
+
+    ledcWrite(M1A_PWM_CHANNEL, 255);
+    ledcWrite(M1B_PWM_CHANNEL, speedL);
   }
   else
   {
     int speedL = map(speedLeft, -255, 0, 0, 255);
-    ledcWrite(M1A_PWM_CHANNEL, 255);
-    ledcWrite(M1B_PWM_CHANNEL, speedL);
+    ledcWrite(M1A_PWM_CHANNEL, speedL);
+    ledcWrite(M1B_PWM_CHANNEL, 255);
   }
 
   if (speedRight > 0)
   {
     int speedR = map(speedRight, 0, 255, 255, 0);
-    ledcWrite(M2A_PWM_CHANNEL, speedR);
-    ledcWrite(M2B_PWM_CHANNEL, 255);
+    ledcWrite(M2A_PWM_CHANNEL, 255);
+    ledcWrite(M2B_PWM_CHANNEL, speedR);
   }
   else
   {
     int speedR = map(speedRight, -255, 0, 0, 255);
-    ledcWrite(M2A_PWM_CHANNEL, 255);
-    ledcWrite(M2B_PWM_CHANNEL, speedR);
+    ledcWrite(M2A_PWM_CHANNEL, speedR);
+    ledcWrite(M2B_PWM_CHANNEL, 255);
   }
 }
 
@@ -112,9 +111,10 @@ void loop()
       Serial.print("L_data: ");
       Serial.println(speedL_data);
 
-     robotMove(speedR_data,speedL_data);
+      robotMove(speedR_data, speedL_data);
     }
-    else{
+    else
+    {
       break;
     }
   }

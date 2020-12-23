@@ -17,10 +17,32 @@ int speed_L = 0;
 int speedR_data = 0;
 int speedL_data = 0;
 
+void task0(void *arg)
+{
+  while (1)
+  {
+    speedR_dataHH = (uint8_t)((speedR_data & 0xFF00) >> 8);
+    speedR_dataHL = (uint8_t)((speedR_data & 0x00FF) >> 0);
+    speedL_dataHH = (uint8_t)((speedL_data & 0xFF00) >> 8);
+    speedL_dataHL = (uint8_t)((speedL_data & 0x00FF) >> 0);
+
+    CAN.beginExtendedPacket(0x02);
+    CAN.write(speedR_dataHH);
+    CAN.write(speedR_dataHL);
+    CAN.write(speedL_dataHH);
+    CAN.write(speedL_dataHL);
+    CAN.endPacket();
+    delay(10);
+  }
+}
+
 void setup()
 {
   pinMode(39, INPUT);
   Serial.begin(115200);
+
+  // create tasks
+  xTaskCreatePinnedToCore(task0, "Task0", 4096, NULL, 1, NULL, 0);
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);
   FastLED.setBrightness(20);
@@ -47,34 +69,10 @@ void loop()
   {
     speedR_data = 200;
     speedL_data = 200;
-    speedR_dataHH = (uint8_t)((speedR_data & 0xFF00) >> 8);
-    speedR_dataHL = (uint8_t)((speedR_data & 0x00FF) >> 0);
-    speedL_dataHH = (uint8_t)((speedL_data & 0xFF00) >> 8);
-    speedL_dataHL = (uint8_t)((speedL_data & 0x00FF) >> 0);
-
-    CAN.beginExtendedPacket(0x02);
-    CAN.write(speedR_dataHH);
-    CAN.write(speedR_dataHL);
-    CAN.write(speedL_dataHH);
-    CAN.write(speedL_dataHL);
-    CAN.endPacket();
-    delay(10);
   }
   else
   {
     speedR_data = 0;
     speedL_data = 0;
-    speedR_dataHH = (uint8_t)((speedR_data & 0xFF00) >> 8);
-    speedR_dataHL = (uint8_t)((speedR_data & 0x00FF) >> 0);
-    speedL_dataHH = (uint8_t)((speedL_data & 0xFF00) >> 8);
-    speedL_dataHL = (uint8_t)((speedL_data & 0x00FF) >> 0);
-
-    CAN.beginExtendedPacket(0x02);
-    CAN.write(speedR_dataHH);
-    CAN.write(speedR_dataHL);
-    CAN.write(speedL_dataHH);
-    CAN.write(speedL_dataHL);
-    CAN.endPacket();
-    delay(10);
   }
 }
