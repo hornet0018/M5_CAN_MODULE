@@ -1,3 +1,4 @@
 (sym_lib_table
   (lib (name M5Atom_CAN-rescue)(type Legacy)(uri ${KIPRJMOD}/M5Atom_CAN-rescue.lib)(options "")(descr ""))
+  (lib (name M5Atom_CAN_RJ45-rescue)(type Legacy)(uri ${KIPRJMOD}/M5Atom_CAN_RJ45-rescue.lib)(options "")(descr ""))
 )

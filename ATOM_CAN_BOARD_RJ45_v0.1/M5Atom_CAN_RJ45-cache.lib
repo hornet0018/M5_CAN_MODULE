@@ -113,6 +113,28 @@ X ~ 2 0 -100 80 U 50 50 1 1 P
 ENDDRAW
 ENDDEF
 #
+# Device_D_Schottky
+#
+DEF Device_D_Schottky D 0 40 N N 1 F N
+F0 "D" 0 100 50 H V C CNN
+F1 "Device_D_Schottky" 0 -100 50 H V C CNN
+F2 "" 0 0 50 H I C CNN
+F3 "" 0 0 50 H I C CNN
+$FPLIST
+ TO-???*
+ *_Diode_*
+ *SingleDiode*
+ D_*
+$ENDFPLIST
+DRAW
+P 2 0 1 0 50 0 -50 0 N
+P 4 0 1 8 50 50 50 -50 -50 0 50 50 N
+P 6 0 1 8 -75 25 -75 50 -50 50 -50 -50 -25 -50 -25 -25 N
+X K 1 -150 0 100 R 50 50 1 1 P
+X A 2 150 0 100 L 50 50 1 1 P
+ENDDRAW
+ENDDEF
+#
 # Device_R_Small
 #
 DEF Device_R_Small R 0 10 N N 1 F N
@@ -154,11 +176,11 @@ X STBY 8 -500 -200 100 R 50 50 1 1 I
 ENDDRAW
 ENDDEF
 #
-# M5_ATOM_Lite
+# M5Atom_CAN_RJ45-rescue_ATOM_Lite-M5
 #
-DEF M5_ATOM_Lite U 0 40 Y Y 1 F N
+DEF M5Atom_CAN_RJ45-rescue_ATOM_Lite-M5 U 0 40 Y Y 1 F N
 F0 "U" 0 150 50 H V C CNN
-F1 "M5_ATOM_Lite" 0 450 50 H V C CNN
+F1 "M5Atom_CAN_RJ45-rescue_ATOM_Lite-M5" 0 450 50 H V C CNN
 F2 "" 0 150 50 H I C CNN
 F3 "" 0 150 50 H I C CNN
 DRAW
