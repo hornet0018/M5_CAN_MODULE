@@ -48,5 +48,8 @@ void loop()
       Serial.print("mv");
       Serial.println();
     }
+    else{
+      break;
+    }
   }
 }

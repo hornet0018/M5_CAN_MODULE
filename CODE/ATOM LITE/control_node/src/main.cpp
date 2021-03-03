@@ -1,5 +1,6 @@
 #include <CAN.h>
 #include <FastLED.h>
+#include <ArduinoJson.h>
 
 #define NUM_LEDS 25
 #define DATA_PIN 27
@@ -12,10 +13,9 @@ uint8_t speedR_dataHH = 0;
 uint8_t speedR_dataHL = 0;
 uint8_t speedL_dataHH = 0;
 uint8_t speedL_dataHL = 0;
-int speed_R = 0;
-int speed_L = 0;
 int speedR_data = 0;
 int speedL_data = 0;
+float batt = 0;
 
 void task0(void *arg)
 {
@@ -65,6 +65,32 @@ void setup()
 void loop()
 {
   int button = digitalRead(39);
+  DynamicJsonDocument root(200);
+
+  int packetSize = CAN.parsePacket();
+  // only print packet data for non-RTR packets
+  while (CAN.available())
+  {
+    if (CAN.packetId() == 0x01)
+    {
+      uint8_t dataHH = (uint8_t)CAN.read();
+      uint8_t dataHL = (uint8_t)CAN.read();
+      uint8_t dataLH = (uint8_t)CAN.read();
+      uint8_t dataLL = (uint8_t)CAN.read();
+      char soc = (uint8_t)CAN.read();
+
+      int32_t data = (int32_t)(
+          (((int32_t)dataHH << 24) & 0xFF000000) | (((int32_t)dataHL << 16) & 0x00FF0000) | (((int32_t)dataLH << 8) & 0x0000FF00) | (((int32_t)dataLL << 0) & 0x000000FF));
+
+      root["batt"] = data;
+      root["soc"] = soc;
+      serializeJson(root, Serial);
+    }
+    else
+    {
+      break;
+    }
+  }
   if (button == 0)
   {
     speedR_data = 200;
@@ -75,4 +101,5 @@ void loop()
     speedR_data = 0;
     speedL_data = 0;
   }
+  
 }

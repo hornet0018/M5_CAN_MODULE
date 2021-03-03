@@ -1,3 +1,5 @@
+//Motor ID: 0x02
+
 #include <CAN.h>
 #include <FastLED.h>
 #include <Arduino.h>
